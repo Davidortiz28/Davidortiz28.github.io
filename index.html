@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111018">
+  <title>David Fabián Ortiz Vega — Portafolio</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #111018;
+      --panel: #1b1924;
+      --panel-soft: #24212f;
+      --text: #f4f1fa;
+      --muted: #b7b1c4;
+      --lavender: #c1a8ff;
+      --lavender-strong: #a883ff;
+      --line: rgba(229, 219, 255, .13);
+      --serif: Georgia, 'Times New Roman', serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .ambient-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .noise-overlay { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .24; mix-blend-mode: screen; }
+    header, main { position: relative; z-index: 1; }
+    a { color: inherit; }
+    .wrap { width: min(1080px, calc(100% - 44px)); margin: auto; }
+    header { position: sticky; top: 0; z-index: 5; background: rgba(17,16,24,.88); backdrop-filter: blur(18px); border-bottom: 1px solid var(--line); }
+    nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; text-decoration: none; }
+    .brand-logo { display: block; width: 42px; height: 42px; object-fit: contain; }
+    .brand span { color: var(--lavender); }
+    .nav-right, .links { display: flex; align-items: center; gap: 22px; }
+    .nav-right a { color: var(--muted); text-decoration: none; font-size: .9rem; }
+    .nav-right a:hover, .text-link:hover { color: var(--lavender); }
+    .language { border: 1px solid var(--line); border-radius: 999px; display: flex; padding: 4px; gap: 2px; }
+    .language button { border: 0; background: transparent; color: var(--muted); font: inherit; font-size: .78rem; padding: 6px 10px; border-radius: 999px; cursor: pointer; }
+    .language button.active { color: #171321; background: var(--lavender); font-weight: 700; }
+    .hero { min-height: 590px; padding: 92px 0 86px; display: grid; grid-template-columns: 1.3fr .7fr; gap: 52px; align-items: center; position: relative; }
+    .hero:before { content: ''; position: absolute; z-index: -1; width: 420px; height: 420px; border-radius: 50%; background: #7653ba; filter: blur(150px); opacity: .2; right: 1%; top: 10%; }
+    .eyebrow { color: var(--lavender); font-size: .75rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; }
+    h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(3.2rem, 7vw, 5.7rem); letter-spacing: -.06em; line-height: .99; margin: 20px 0 24px; }
+    h1 em { font-weight: 400; color: var(--lavender); }
+    .intro { color: var(--muted); font-size: 1.1rem; max-width: 570px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 12px 18px; text-decoration: none; border: 1px solid var(--line); border-radius: 8px; font-size: .9rem; font-weight: 650; transition: transform .2s, background .2s; }
+    .button:hover { transform: translateY(-2px); }
+    .button.primary { background: var(--lavender); border-color: var(--lavender); color: #171321; }
+    .button.secondary { color: var(--text); }
+    .portrait-card { border: 1px solid var(--line); background: linear-gradient(145deg, #292435, #17151d 72%); border-radius: 18px; min-height: 355px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; position: relative; }
+    .portrait-card:after { content: 'D'; position: absolute; right: -12px; bottom: -100px; font: 400 24rem/.9 var(--serif); color: rgba(193,168,255,.09); }
+    .orbit { position: absolute; width: 220px; height: 220px; border: 1px solid rgba(193,168,255,.28); border-radius: 50%; right: 12%; top: 17%; }
+    .orbit:before, .orbit:after { content: ''; position: absolute; border: 1px solid rgba(193,168,255,.2); border-radius: 50%; inset: 24px; }
+    .orbit:after { inset: 52px; }
+    .avatar-mark { position: relative; z-index: 1; display: grid; place-items: center; width: 62px; height: 62px; border-radius: 18px; color: #171321; background: var(--lavender); font: 1.8rem var(--serif); }
+    .card-caption { position: relative; z-index: 1; }
+    .card-caption small { color: var(--muted); }
+    .card-caption p { margin: 5px 0 0; font: 1.5rem var(--serif); }
+    section { padding: 88px 0; border-top: 1px solid var(--line); }
+    .section-head { display: flex; justify-content: space-between; gap: 30px; align-items: end; margin-bottom: 34px; }
+    h2 { margin: 9px 0 0; font: 400 clamp(2.3rem, 4.5vw, 3.5rem)/1.05 var(--serif); letter-spacing: -.04em; }
+    .section-note { max-width: 350px; margin: 0; color: var(--muted); font-size: .95rem; }
+    .about-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 60px; }
+    .about-quote { font: 1.7rem/1.3 var(--serif); color: var(--lavender); margin: 0; }
+    .about-copy { color: var(--muted); max-width: 650px; }
+    .about-copy p { margin-top: 0; }
+    .tags { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
+    .tag { padding: 7px 12px; border-radius: 999px; background: var(--panel-soft); border: 1px solid var(--line); color: #ded6ef; font-size: .8rem; }
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .skill-card, .education-card { padding: 24px; border-radius: 13px; border: 1px solid var(--line); background: linear-gradient(145deg, var(--panel), #17151d); }
+    .skill-card small, .education-card small { color: var(--lavender); letter-spacing: .12em; text-transform: uppercase; font-size: .68rem; font-weight: 700; }
+    .skill-card h3, .education-card h3 { font: 1.45rem var(--serif); margin: 13px 0 8px; }
+    .skill-card p, .education-card p { color: var(--muted); margin: 0; font-size: .9rem; }
+    .skill-card .tags { margin-top: 18px; }
+    .education-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .education-card { min-height: 175px; }
+    .education-card .education-icon { display: grid; place-items: center; float: right; width: 37px; height: 37px; color: var(--lavender); border: 1px solid var(--line); border-radius: 11px; }
+    .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .project { min-height: 270px; padding: 26px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); display: flex; flex-direction: column; justify-content: space-between; transition: border-color .2s, transform .2s; }
+    .project:hover { border-color: rgba(193,168,255,.55); transform: translateY(-3px); }
+    .project-top { display: flex; justify-content: space-between; align-items: start; gap: 16px; }
+    .project-index { color: var(--lavender); font-size: .8rem; letter-spacing: .1em; }
+    .project h3 { margin: 17px 0 8px; font: 1.8rem var(--serif); }
+    .project p { color: var(--muted); max-width: 390px; margin: 0; }
+    .project-meta { color: #d1c9df; font-size: .8rem; margin-top: 24px; }
+    .arrow { color: var(--lavender); font-size: 1.2rem; }
+    .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+    .contact-copy { color: var(--muted); max-width: 450px; }
+    .contact-links { display: grid; gap: 12px; }
+    .contact-link { text-decoration: none; display: flex; justify-content: space-between; gap: 16px; padding: 15px 17px; border: 1px solid var(--line); border-radius: 9px; background: var(--panel); }
+    .contact-link span:first-child { color: var(--muted); }
+    .contact-link span:last-child { color: var(--lavender); }
+    footer { padding: 25px 0 35px; color: var(--muted); font-size: .8rem; display: flex; justify-content: space-between; gap: 20px; }
+    :focus-visible { outline: 2px solid var(--lavender); outline-offset: 4px; }
+    @media(max-width: 760px) {
+      .wrap { width: min(100% - 32px, 560px); }
+      nav { min-height: 74px; flex-wrap: wrap; padding: 10px 0; }
+      .nav-right { width: 100%; gap: 16px; justify-content: space-between; overflow-x: auto; padding: 2px 0 5px; }
+      .nav-right a { display: block; white-space: nowrap; font-size: .82rem; }
+      .hero { min-height: initial; padding: 75px 0 65px; grid-template-columns: 1fr; gap: 38px; }
+      .portrait-card { min-height: 260px; }
+      .orbit { width: 190px; height: 190px; }
+      section { padding: 66px 0; }
+      .section-head { display: block; }
+      .section-note { margin-top: 17px; }
+      .about-grid, .contact { grid-template-columns: 1fr; gap: 28px; }
+      .skills-grid, .education-grid { grid-template-columns: 1fr; }
+      .project-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 5px; }
+    }
+    @media(prefers-reduced-motion: reduce) { *, *:before, *:after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } .noise-overlay { visibility: hidden; } }
+  </style>
+</head>
+<body>
+  <div class="ambient-bg" aria-hidden="true">
+    <svg class="noise-overlay" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <filter id="film-grain"><feTurbulence type="fractalNoise" baseFrequency="1" numOctaves="3" stitchTiles="stitch" seed="1"><animate attributeName="seed" values="1;2;3;4;5;6;7;8" dur="1.8s" repeatCount="indefinite"/></feTurbulence></filter>
+      <mask id="film-grain-mask" mask-type="luminance"><rect width="100%" height="100%" filter="url(#film-grain)"/></mask>
+      <rect width="100%" height="100%" fill="#c1a8ff" opacity=".45" mask="url(#film-grain-mask)"/>
+    </svg>
+  </div>
+  <header>
+    <nav class="wrap" aria-label="Navegación principal">
+      <a class="brand" href="#inicio" aria-label="David Ortiz — Inicio"><img class="brand-logo" src="logo.png" alt="Logo de David Ortiz"></a>
+      <div class="nav-right">
+        <a href="#sobre-mi" data-i18n="navAbout">Sobre mí</a>
+        <a href="#skills" data-i18n="navSkills">Skills</a>
+        <a href="#formacion" data-i18n="navEducation">Formación</a>
+        <a href="#proyectos" data-i18n="navProjects">Proyectos</a>
+        <a href="#contacto" data-i18n="navContact">Contacto</a>
+        <div class="language" aria-label="Language selector">
+          <button type="button" class="active" data-lang="es" aria-pressed="true">ES</button>
+          <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="hero" id="inicio" style="border:0">
+        <div>
+          <div class="eyebrow" data-i18n="eyebrow">Desarrollador Frontend · En formación</div>
+          <h1 data-i18n="heroTitle">Hola, soy<br><em>David Ortiz.</em></h1>
+          <p class="intro" data-i18n="heroIntro">Creo experiencias digitales claras y cuidadas. Estoy construyendo mi camino en desarrollo Frontend y explorando el diseño UX/UI.</p>
+          <div class="actions">
+            <a class="button primary" href="#proyectos"><span data-i18n="seeProjects">Ver proyectos</span><span aria-hidden="true">↗</span></a>
+            <a class="button secondary" href="mailto:davidfabianortizvega2955@gmail.com"><span data-i18n="contactMe">Hablemos</span></a>
+          </div>
+        </div>
+        <div class="portrait-card" aria-label="Tarjeta gráfica de David">
+          <div class="orbit"></div><div class="avatar-mark">D</div>
+          <div class="card-caption"><small data-i18n="currently">Actualmente</small><p data-i18n="currentlyText">Aprendiendo y creando</p></div>
+        </div>
+      </section>
+
+      <section id="sobre-mi">
+        <div class="section-head"><div><div class="eyebrow" data-i18n="aboutEyebrow">Un poco sobre mí</div><h2 data-i18n="aboutTitle">Curiosidad que<br>se convierte en ideas.</h2></div><p class="section-note" data-i18n="aboutNote">Una mirada honesta a mi recorrido, lo que estoy aprendiendo y cómo me gusta trabajar.</p></div>
+        <div class="about-grid">
+          <p class="about-quote" data-i18n="quote">“Me interesa crear cosas útiles, simples y agradables de usar.”</p>
+          <div class="about-copy"><p data-i18n="aboutCopy">Soy estudiante y desarrollador Frontend en formación en Colombia. Aunque aún no tengo experiencia laboral, he participado en proyectos que me han permitido aprender haciendo. También estoy explorando UX/UI para entender mejor a las personas detrás de cada pantalla.</p><p data-i18n="aboutCopy2">Valoro escuchar, comunicarme con claridad y colaborar con respeto. Este portafolio irá creciendo junto con mis proyectos y aprendizajes.</p>
+            <div class="tags"><span class="tag">Frontend</span><span class="tag">UX/UI</span><span class="tag" data-i18n="tagStudent">Estudiante</span><span class="tag" data-i18n="tagColombia">Colombia</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills">
+        <div class="section-head"><div><div class="eyebrow" data-i18n="skillsEyebrow">Lo que estoy aprendiendo</div><h2 data-i18n="skillsTitle">Herramientas para<br>convertir ideas en algo real.</h2></div><p class="section-note" data-i18n="skillsNote">Tecnologías y formas de trabajo presentes en mis proyectos académicos.</p></div>
+        <div class="skills-grid">
+          <article class="skill-card"><small data-i18n="skillWebLabel">01 · Desarrollo web</small><h3 data-i18n="skillWebTitle">Interfaces y lógica</h3><p data-i18n="skillWebDesc">Tecnologías que utilicé para construir el portal transaccional.</p><div class="tags"><span class="tag">JavaScript</span><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">Web Components</span></div></article>
+          <article class="skill-card"><small data-i18n="skillSystemsLabel">02 · Sistemas</small><h3 data-i18n="skillSystemsTitle">Datos y arquitectura</h3><p data-i18n="skillSystemsDesc">Herramientas y conceptos explorados en el desarrollo de SICA.</p><div class="tags"><span class="tag">Java</span><span class="tag">JDBC</span><span class="tag">MySQL</span><span class="tag">MVC</span><span class="tag">RBAC</span></div></article>
+          <article class="skill-card"><small data-i18n="skillPeopleLabel">03 · Colaboración</small><h3 data-i18n="skillPeopleTitle">Comunicación clara</h3><p data-i18n="skillPeopleDesc">Me gusta escuchar, expresar mis ideas con respeto y colaborar para resolver problemas.</p><div class="tags"><span class="tag" data-i18n="tagListening">Escucha</span><span class="tag" data-i18n="tagCommunication">Comunicación</span><span class="tag" data-i18n="tagTeamwork">Colaboración</span></div></article>
+        </div>
+      </section>
+
+      <section id="formacion">
+        <div class="section-head"><div><div class="eyebrow" data-i18n="educationEyebrow">Mi recorrido académico</div><h2 data-i18n="educationTitle">Formación.</h2></div><p class="section-note" data-i18n="educationNote">La base desde la que sigo creciendo en tecnología y diseño.</p></div>
+        <div class="education-grid">
+          <article class="education-card"><span class="education-icon" aria-hidden="true">✦</span><small data-i18n="technicalLabel">Formación técnica</small><h3 data-i18n="technicalTitle">Técnico Laboral en Desarrollo de Software</h3><p data-i18n="technicalDesc">Campuslands · 2026</p></article>
+          <article class="education-card"><span class="education-icon" aria-hidden="true">◇</span><small data-i18n="secondaryLabel">Educación básica</small><h3 data-i18n="secondaryTitle">Bachillerato Académico</h3><p data-i18n="secondaryDesc">Colegio de las Americas · 2025</p></article>
+        </div>
+      </section>
+
+      <section id="proyectos">
+        <div class="section-head"><div><div class="eyebrow" data-i18n="workEyebrow">Trabajo seleccionado</div><h2 data-i18n="workTitle">Proyectos en proceso.</h2></div><p class="section-note" data-i18n="workNote">Aquí destacaremos tus proyectos universitarios con contexto, decisiones, tecnologías y resultados.</p></div>
+        <div class="project-grid">
+          <article class="project"><div><div class="project-top"><span class="project-index" data-i18n="projectOneIndex">01 / JAVASCRIPT</span></div><h3 data-i18n="projectOne">Portal Transaccional Banco Acme</h3><p data-i18n="projectOneDesc">Aplicación bancaria de práctica con registro e inicio de sesión, consulta de cuentas y saldo, transacciones y certificados. Construida como SPA con componentes web y almacenamiento local en el navegador.</p></div><div class="project-meta" data-i18n="projectOneMeta">JavaScript · HTML · CSS · Web Components</div></article>
+          <article class="project"><div><div class="project-top"><span class="project-index" data-i18n="projectTwoIndex">02 / JAVA</span></div><h3 data-i18n="projectTwo">SICA · Control de acceso</h3><p data-i18n="projectTwoDesc">Sistema académico para digitalizar el acceso a un complejo empresarial: gestión de personas y visitas, aprobaciones, auditoría, incidentes y reportes, con permisos según el rol de cada usuario.</p></div><div class="project-meta" data-i18n="projectTwoMeta">Java · JDBC · MySQL · Arquitectura MVC</div></article>
+        </div>
+      </section>
+
+      <section id="contacto">
+        <div class="contact"><div><div class="eyebrow" data-i18n="contactEyebrow">Sigamos la conversación</div><h2 data-i18n="contactTitle">¿Creamos algo<br>interesante?</h2><p class="contact-copy" data-i18n="contactCopy">Estoy abierto a conectar, compartir ideas y conocer nuevas oportunidades.</p></div>
+          <div class="contact-links"><a class="contact-link" href="mailto:davidfabianortizvega2955@gmail.com"><span>Email</span><span>davidfabianortizvega2955@gmail.com ↗</span></a><a class="contact-link" href="https://github.com/Davidortiz28" target="_blank" rel="noreferrer"><span>GitHub</span><span>@Davidortiz28 ↗</span></a><a class="contact-link" href="https://www.linkedin.com/in/david-fabi%C3%A1n-ortiz-vega-bb4112426/" target="_blank" rel="noreferrer"><span>LinkedIn</span><span data-i18n="visitProfile">Ver perfil ↗</span></a></div>
+        </div>
+      </section>
+      <footer><span>© <span id="year"></span> David Fabián Ortiz Vega</span><span data-i18n="footerText">Diseñado con intención · Colombia</span></footer>
+    </div>
+  </main>
+  <script>
+    const copy = {
+      es: {
+        navAbout:'Sobre mí',navProjects:'Proyectos',navContact:'Contacto',eyebrow:'Desarrollador Frontend · En formación',heroTitle:'Hola, soy<br><em>David Ortiz.</em>',heroIntro:'Creo experiencias digitales claras y cuidadas. Estoy construyendo mi camino en desarrollo Frontend y explorando el diseño UX/UI.',seeProjects:'Ver proyectos',contactMe:'Hablemos',currently:'Actualmente',currentlyText:'Aprendiendo y creando',aboutEyebrow:'Un poco sobre mí',aboutTitle:'Curiosidad que<br>se convierte en ideas.',aboutNote:'Una mirada honesta a mi recorrido, lo que estoy aprendiendo y cómo me gusta trabajar.',quote:'“Me interesa crear cosas útiles, simples y agradables de usar.”',aboutCopy:'Soy estudiante y desarrollador Frontend en formación en Colombia. Aunque aún no tengo experiencia laboral, he participado en proyectos universitarios que me han permitido aprender haciendo. También estoy explorando UX/UI para entender mejor a las personas detrás de cada pantalla.',aboutCopy2:'Valoro escuchar, comunicarme con claridad y colaborar con respeto. Este portafolio irá creciendo junto con mis proyectos y aprendizajes.',tagStudent:'Estudiante',tagColombia:'Colombia',workEyebrow:'Trabajo seleccionado',workTitle:'Proyectos académicos.',workNote:'Proyectos universitarios que muestran mi aprendizaje en desarrollo web y diseño de sistemas.',projectOneIndex:'01 / JAVASCRIPT',projectOne:'Portal Transaccional Banco Acme',projectOneDesc:'Aplicación bancaria de práctica con registro e inicio de sesión, consulta de cuentas y saldo, transacciones y certificados. Construida como SPA con componentes web y almacenamiento local en el navegador.',projectOneMeta:'JavaScript · HTML · CSS · Web Components',projectTwoIndex:'02 / JAVA',projectTwo:'SICA · Control de acceso',projectTwoDesc:'Sistema académico para digitalizar el acceso a un complejo empresarial: gestión de personas y visitas, aprobaciones, auditoría, incidentes y reportes, con permisos según el rol de cada usuario.',projectTwoMeta:'Java · JDBC · MySQL · Arquitectura MVC',contactEyebrow:'Sigamos la conversación',contactTitle:'¿Creamos algo<br>interesante?',contactCopy:'Estoy abierto a conectar, compartir ideas y conocer nuevas oportunidades.',visitProfile:'Ver perfil ↗',footerText:'Diseñado con intención · Colombia'
+      },
+      en: {
+        navAbout:'About',navProjects:'Projects',navContact:'Contact',eyebrow:'Frontend Developer · In training',heroTitle:'Hi, I’m<br><em>David Ortiz.</em>',heroIntro:'I build clear, thoughtful digital experiences. I’m growing as a Frontend developer and exploring UX/UI design.',seeProjects:'View projects',contactMe:'Say hello',currently:'Currently',currentlyText:'Learning and creating',aboutEyebrow:'A little about me',aboutTitle:'Curiosity turned<br>into ideas.',aboutNote:'An honest look at my journey, what I’m learning, and how I like to work.',quote:'“I enjoy making useful things that feel simple and pleasant to use.”',aboutCopy:'I’m a student and aspiring Frontend developer from Colombia. While I’m at the start of my career, university projects have helped me learn by building. I’m also exploring UX/UI to better understand the people behind every screen.',aboutCopy2:'I value listening, clear communication, and respectful collaboration. This portfolio will grow alongside my projects and learning.',tagStudent:'Student',tagColombia:'Colombia',workEyebrow:'Selected work',workTitle:'Academic projects.',workNote:'University projects that reflect what I’m learning in web development and system design.',projectOneIndex:'01 / JAVASCRIPT',projectOne:'Banco Acme Transaction Portal',projectOneDesc:'A practice banking app with registration and sign-in, account and balance views, transactions, and downloadable certificates. Built as a single-page app with Web Components and browser local storage.',projectOneMeta:'JavaScript · HTML · CSS · Web Components',projectTwoIndex:'02 / JAVA',projectTwo:'SICA · Access Control System',projectTwoDesc:'An academic system for digitizing access to a business complex, including people and visitor management, approvals, audit logs, incident tracking, and reports with role-based permissions.',projectTwoMeta:'Java · JDBC · MySQL · MVC architecture',contactEyebrow:'Let’s keep in touch',contactTitle:'Let’s make<br>something good.',contactCopy:'I’m open to connecting, sharing ideas, and exploring new opportunities.',visitProfile:'View profile ↗',footerText:'Made with intention · Colombia'
+      }
+    };
+    Object.assign(copy.es, {
+      navSkills:'Skills', navEducation:'Formación',
+      skillsEyebrow:'Lo que estoy aprendiendo', skillsTitle:'Herramientas para<br>convertir ideas en algo real.', skillsNote:'Tecnologías y formas de trabajo presentes en mis proyectos académicos.',
+      skillWebLabel:'01 · Desarrollo web', skillWebTitle:'Interfaces y lógica', skillWebDesc:'Tecnologías que utilicé para construir el portal transaccional.',
+      skillSystemsLabel:'02 · Sistemas', skillSystemsTitle:'Datos y arquitectura', skillSystemsDesc:'Herramientas y conceptos explorados en el desarrollo de SICA.',
+      skillPeopleLabel:'03 · Colaboración', skillPeopleTitle:'Comunicación clara', skillPeopleDesc:'Me gusta escuchar, expresar mis ideas con respeto y colaborar para resolver problemas.',
+      tagListening:'Escucha', tagCommunication:'Comunicación', tagTeamwork:'Colaboración',
+      educationEyebrow:'Mi recorrido académico', educationTitle:'Formación.', educationNote:'La base desde la que sigo creciendo en tecnología y diseño.',
+      technicalLabel:'Formación técnica', technicalTitle:'Técnico Laboral en Desarrollo de Software', technicalDesc:'Campuslands · 2026',
+      secondaryLabel:'Educación básica', secondaryTitle:'Bachillerato Académico', secondaryDesc:'Colegio de las Americas · 2025'
+    });
+    Object.assign(copy.en, {
+      navSkills:'Skills', navEducation:'Education',
+      skillsEyebrow:'What I’m learning', skillsTitle:'Tools to turn<br>ideas into something real.', skillsNote:'Technologies and ways of working featured in my academic projects.',
+      skillWebLabel:'01 · Web development', skillWebTitle:'Interfaces and logic', skillWebDesc:'Technologies I used to build the transaction portal.',
+      skillSystemsLabel:'02 · Systems', skillSystemsTitle:'Data and architecture', skillSystemsDesc:'Tools and concepts explored while developing SICA.',
+      skillPeopleLabel:'03 · Collaboration', skillPeopleTitle:'Clear communication', skillPeopleDesc:'I enjoy listening, sharing ideas respectfully, and working together to solve problems.',
+      tagListening:'Listening', tagCommunication:'Communication', tagTeamwork:'Collaboration',
+      educationEyebrow:'My academic journey', educationTitle:'Education.', educationNote:'The foundation I’m building on as I grow in technology and design.',
+      technicalLabel:'Technical training', technicalTitle:'Vocational Diploma in Software Development', technicalDesc:'Campuslands · 2026',
+      secondaryLabel:'Secondary education', secondaryTitle:'High School Diploma', secondaryDesc:'Colegio de las Americas · 2025'
+    });
+    document.querySelectorAll('[data-lang]').forEach(button => button.addEventListener('click', () => {
+      const lang = button.dataset.lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-lang]').forEach(item => { const active = item === button; item.classList.toggle('active', active); item.setAttribute('aria-pressed', active); });
+      document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.dataset.i18n; if (copy[lang][key]) el.innerHTML = copy[lang][key]; });
+    }));
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
